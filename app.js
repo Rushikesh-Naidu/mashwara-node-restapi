@@ -8,6 +8,10 @@ app.use(express.json());
 // Routes
 // GET
 // Get All Customers
+app.get('/', (req,res)=>{
+    res.send("If you are seeing this then github push is getting updated automatically")
+})
+
 app.get('/customers',async(req,res)=>{ 
     try {
         const customer = await Customer.find()
