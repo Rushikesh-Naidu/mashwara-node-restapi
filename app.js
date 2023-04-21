@@ -5,7 +5,11 @@ const Customer = require('./models/customerModel')
 const app = express();
 
 app.use(express.json());
-app.use(cors())
+app.use(cors(
+{
+    origin: "http://3.108.67.34:1206",
+}
+))
 
 // Routes
 // GET
