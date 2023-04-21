@@ -12,6 +12,14 @@ app.get('/', (req,res)=>{
     res.send("If you are seeing this then github push is getting updated automatically")
 })
 
+// Enable CORS
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    next();
+});
+
 app.get('/customers',async(req,res)=>{ 
     try {
         const customer = await Customer.find()
