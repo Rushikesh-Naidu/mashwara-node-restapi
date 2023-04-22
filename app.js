@@ -15,7 +15,7 @@ app.use(cors(
 // GET
 // Get All Customers
 app.get('/',cors(), (req,res)=>{
-    res.send("If you are seeing this then code is in render")
+    res.send("If you are seeing this then its finally connected to render")
 })
 
 // Enable CORS
