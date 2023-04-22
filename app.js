@@ -15,7 +15,7 @@ app.use(cors(
 // GET
 // Get All Customers
 app.get('/',cors(), (req,res)=>{
-    res.send("If you are seeing this then github push is getting updated automatically")
+    res.send("If you are seeing this then code is in render")
 })
 
 // Enable CORS
