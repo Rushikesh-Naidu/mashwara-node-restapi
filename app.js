@@ -14,7 +14,7 @@ app.use(cors(
 // Routes
 // GET
 // Get All Customers
-app.get('/', (req,res)=>{
+app.get('/',cors(), (req,res)=>{
     res.send("If you are seeing this then github push is getting updated automatically")
 })
 
@@ -26,7 +26,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.get('/customers',async(req,res)=>{ 
+app.get('/customers',cors(),async(req,res)=>{ 
     try {
         const customer = await Customer.find()
         res.status(200).json(customer)
@@ -36,7 +36,7 @@ app.get('/customers',async(req,res)=>{
 })
 
 // Get Customer By Customer Phone Number
-app.get('/customers/custPhone',async(req,res)=>{ 
+app.get('/customers/custPhone',cors(),async(req,res)=>{ 
     try {
         const phone = req.query.phoneNumber;
         const customer = await Customer.find({"phoneNumber": phone})
@@ -47,7 +47,7 @@ app.get('/customers/custPhone',async(req,res)=>{
 })
 
 // Get Customer By Customer ID
-app.get('/customers/:id',async(req,res)=>{ 
+app.get('/customers/:id',cors(),async(req,res)=>{ 
     try {
         const {id} = req.params;
         const customer = await Customer.findById(id)
@@ -59,7 +59,7 @@ app.get('/customers/:id',async(req,res)=>{
 // End of GET api
 
 // POST
-app.post('/customers', async(req,res)=>{
+app.post('/customers',cors(), async(req,res)=>{
     try {
         const customer = await Customer.create(req.body)
         res.status(201).json(customer);
@@ -70,7 +70,7 @@ app.post('/customers', async(req,res)=>{
 // End of POST api
 
 // PUT
-app.put('/customers/:id',async(req,res)=>{
+app.put('/customers/:id',cors(),async(req,res)=>{
     try {
         const {id} = req.params;
         const customer = await Customer.findByIdAndUpdate(id, req.body);
@@ -87,7 +87,7 @@ app.put('/customers/:id',async(req,res)=>{
 // End Of PUT api
 
 // DELETE
-app.delete('/customers/:id',async(req,res)=>{
+app.delete('/customers/:id',cors(),async(req,res)=>{
     try {
         const {id} = req.params;
         const customer = await Customer.findByIdAndDelete(id);
