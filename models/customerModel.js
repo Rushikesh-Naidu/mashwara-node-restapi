@@ -25,7 +25,7 @@ const customerSchema = mongoose.Schema(
             default: null
         },
         gender: {
-            type: Number, //Gender Value 1 For Male, 2 For Female, 3 For Others
+            type: String, //Gender Value 1 For Male, 2 For Female, 3 For Others
             required: [false],
             default: null
         },
