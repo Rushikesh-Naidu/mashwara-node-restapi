@@ -61,6 +61,8 @@ app.get('/customers/:id',cors(),async(req,res)=>{
 // POST
 app.post('/customers',cors(), async(req,res)=>{
     try {
+        res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
         const customer = await Customer.create(req.body)
         res.status(201).json(customer);
     } catch (error) {
