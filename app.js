@@ -5,11 +5,13 @@ const Customer = require('./models/customerModel')
 const app = express();
 
 app.use(express.json());
-app.use(cors(
-{
-    origin: "http://3.108.67.34:1206",
-}
-))
+
+app.options('*', cors());
+
+var corsOptions = {
+    origin: 'http://192.168.0.111:3012/',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
 
 // Routes
 // GET
@@ -18,15 +20,15 @@ app.get('/',cors(), (req,res)=>{
     res.send("If you are seeing this then its finally connected to render")
 })
 
-// Enable CORS
 app.use(function (req, res, next) {
+    //Enabling CORS
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-    next();
-});
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-client-key, x-client-token, x-client-secret, Authorization");
+      next();
+    });
 
-app.get('/customers',cors(),async(req,res)=>{ 
+app.get('/customers', async(req,res)=>{ 
     try {
         const customer = await Customer.find()
         res.status(200).json(customer)
@@ -36,7 +38,7 @@ app.get('/customers',cors(),async(req,res)=>{
 })
 
 // Get Customer By Customer Phone Number
-app.get('/customers/custPhone',cors(),async(req,res)=>{ 
+app.get('/customers/custPhone',async(req,res)=>{ 
     try {
         const phone = req.query.phoneNumber;
         const customer = await Customer.find({"phoneNumber": phone})
@@ -47,7 +49,7 @@ app.get('/customers/custPhone',cors(),async(req,res)=>{
 })
 
 // Get Customer By Customer ID
-app.get('/customers/:id',cors(),async(req,res)=>{ 
+app.get('/customers/:id',async(req,res)=>{ 
     try {
         const {id} = req.params;
         const customer = await Customer.findById(id)
@@ -59,10 +61,12 @@ app.get('/customers/:id',cors(),async(req,res)=>{
 // End of GET api
 
 // POST
-app.post('/customers',cors(), async(req,res)=>{
+app.post('/customers/createUser', cors(corsOptions) ,async(req,res)=>{
     try {
         res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+        res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");    
+        // res.header("Access-Control-Allow-Headers", "X-Requested-With");
         const customer = await Customer.create(req.body)
         res.status(201).json(customer);
     } catch (error) {
@@ -72,7 +76,7 @@ app.post('/customers',cors(), async(req,res)=>{
 // End of POST api
 
 // PUT
-app.put('/customers/:id',cors(),async(req,res)=>{
+app.put('/customers/:id',async(req,res)=>{
     try {
         const {id} = req.params;
         const customer = await Customer.findByIdAndUpdate(id, req.body);
